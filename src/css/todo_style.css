@@ -38,3 +38,8 @@ div.banner {
 .home_new_list_button:hover {
   box-shadow: 1px 2px;
 }
+
+.list_item_header:hover {
+  cursor: pointer;
+  color: var(--swatch-primary);
+}

@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { /*NavLink,*/ Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
-import TodoListLinks from './TodoListLinks'
+import TodoListLinks from './TodoListLinks';
+import { getFirestore } from 'redux-firestore';
 
 class HomeScreen extends Component {
+
+    handleNewList = (e) => {
+        const fireStore = getFirestore();
+        fireStore.collection('todoLists').add({
+            name: "Undefined",
+            owner: "Undefined",
+            items: null,
+            lastUpdated: fireStore.FieldValue.serverTimestamp(),
+        })
+    }
 
     render() {
         if (!this.props.auth.uid) {
@@ -46,6 +57,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+      { collection: 'todoLists', orderBy: ['lastUpdated', 'desc'] },
     ]),
 )(HomeScreen);

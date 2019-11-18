@@ -7,7 +7,6 @@ const todoListReducer = (state = initState, action) => {
         /* IF YOU HAVE ANY TODO LIST EDITING REDUCERS ADD THEM HERE */ 
         default:
             return state;
-            break;
     }
 };
 
