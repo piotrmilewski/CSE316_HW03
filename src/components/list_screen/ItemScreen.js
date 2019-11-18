@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { getFirestore } from 'redux-firestore';
+import { Button } from 'react-materialize';
 
 class ItemScreen extends Component {
     state = {
@@ -93,6 +94,7 @@ class ItemScreen extends Component {
                            value={this.state.due_date}
                            onChange={this.onChange}></input>
                 </div>
+                <br></br>
                 <div id="item_completed" className="item_prompt">
                 <label>
                     <input type="checkbox" 
@@ -101,14 +103,19 @@ class ItemScreen extends Component {
                     <span>Completed</span>
                 </label>
                 </div>
+                <br></br>
                 <div id="item_button_container">
-                    <button id="item_submit_button" 
-                            className="item_button" 
-                            onClick={this.submit}>Submit</button>
-                    <div className="item_button_divider"></div>
-                    <button id="item_cancel_button" 
+                    <span>
+                    <Button id="item_submit_button" 
                             className="item_button"
-                            onClick={this.cancel}>Cancel</button>
+                            style={{marginLeft: 30}} 
+                            onClick={this.submit}>Submit</Button>
+                    
+                    <Button id="item_cancel_button" 
+                            className="item_button"
+                            style={{marginLeft: 30}}
+                            onClick={this.cancel}>Cancel</Button>
+                    </span>
                 </div>
             </div>
         );

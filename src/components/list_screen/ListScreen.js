@@ -6,7 +6,7 @@ import ItemsList from './ItemsList.js'
 import ListItemsHeader from './ListItemsHeader.js'
 import { firestoreConnect } from 'react-redux-firebase';
 import { getFirestore } from 'redux-firestore';
-import { Modal } from 'react-materialize'
+import { Modal, Button, Icon } from 'react-materialize'
 
 class ListScreen extends Component {
     state = {
@@ -15,6 +15,7 @@ class ListScreen extends Component {
         newItem: false,
         id: 0,
         iid: 0,
+        goHome: false,
     }
 
     handleChange = (e) => {
@@ -36,6 +37,7 @@ class ListScreen extends Component {
 
     deleteList = (e) => {
         getFirestore().collection('todoLists').doc(this.props.todoList.id).delete();
+        this.setState({goHome: true});
     }
 
     newItem = () => {
@@ -78,13 +80,15 @@ class ListScreen extends Component {
         if (this.state.newItem)
             return <Redirect to={"/todoList/" + this.state.id + "/item/" + this.state.iid}/>;
 
+        if (this.state.goHome)
+            return <Redirect to="/" />;
+
         return (
             <div className="container white">
                 <h5 className="grey-text text-darken-3">Todo List</h5>
-                <Modal header="Modal Header" trigger={<button className="material-icons">delete</button>}>
-                    <p>Delete list?</p>
+                <Modal header="Delete list?" trigger={<Button><Icon className="material-icons">delete</Icon></Button>}>
                     <p><b>Are your sure you want to delete this list?</b></p>
-                    <button onClick={this.deleteList}>Yes</button>
+                    <Button onClick={this.deleteList}>Yes</Button>
                     <p>The list will not be retreivable.</p>
                 </Modal>
                 <div className="input-field">
