@@ -12,6 +12,9 @@ class ListScreen extends Component {
     state = {
         name: '',
         owner: '',
+        newItem: false,
+        id: 0,
+        iid: 0,
     }
 
     handleChange = (e) => {
@@ -35,6 +38,32 @@ class ListScreen extends Component {
         getFirestore().collection('todoLists').doc(this.props.todoList.id).delete();
     }
 
+    newItem = () => {
+        var newIndex;
+        if (this.props.todoList.items === null){
+            newIndex = 0;
+            this.props.todoList.items = [{assigned_to: "Undefined",
+                                          completed: false,
+                                          due_date: "0000-00-00",
+                                          description: "Undefined",
+                                          id: new Date().getTime(),
+                                          key: newIndex,}]
+        }
+        else{
+            newIndex = this.props.todoList.items.length;
+            this.props.todoList.items[newIndex] = {assigned_to: "Undefined",
+                                                completed: false,
+                                                due_date: "0000-00-00",
+                                                description: "Undefined",
+                                                id: new Date().getTime(),
+                                                key: newIndex,};
+        }
+        getFirestore().collection('todoLists').doc(this.props.todoList.id).update("items", this.props.todoList.items);
+        this.setState({newItem: true});
+        this.setState({id: this.props.todoList.id});
+        this.setState({iid: newIndex});
+    }
+
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
@@ -45,6 +74,9 @@ class ListScreen extends Component {
 
         if (!todoList)
             return <React.Fragment />;
+
+        if (this.state.newItem)
+            return <Redirect to={"/todoList/" + this.state.id + "/item/" + this.state.iid}/>;
 
         return (
             <div className="container white">
@@ -65,6 +97,13 @@ class ListScreen extends Component {
                 </div>
                 <ListItemsHeader todoList={todoList} />
                 <ItemsList todoList={todoList} />
+                <div className="card todo-list-link pink lighten-3">
+                    <div className="card-content text-darken-3 row">
+                        <div className="list_item_header card-title col s12" 
+                            onClick={this.newItem}
+                            style={{textAlign: "center"}}>Create New Item</div>
+                    </div>
+                </div>
             </div>
         );
     }

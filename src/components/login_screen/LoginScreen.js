@@ -34,7 +34,7 @@ class LoginScreen extends Component {
       credentials,
     };
 
-    console.log(props);
+    //console.log(props);
     props.login(authData);
   }
 

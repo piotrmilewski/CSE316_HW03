@@ -15,7 +15,8 @@ class ItemCard extends React.Component {
         return {color: this.props.item.completed ? 'green' : 'red'};
     }
 
-    upItem = () => {
+    upItem = (e) => {
+        e.stopPropagation();
         var index = this.props.item.key;
         if (index !== 0){
             this.props.todoList.items.splice(
@@ -27,7 +28,8 @@ class ItemCard extends React.Component {
         }
     }
 
-    downItem = () => {
+    downItem = (e) => {
+        e.stopPropagation();
         var index = this.props.item.key;
         if (index !== (this.props.todoList.items.length - 1)){
             this.props.todoList.items.splice(
@@ -39,7 +41,8 @@ class ItemCard extends React.Component {
         }
     }
 
-    removeItem = () => {
+    removeItem = (e) => {
+        e.stopPropagation();
         var index = this.props.item.key;
         this.props.todoList.items.splice(index, 1);
         while (index <= (this.props.todoList.items.length-1)){
@@ -52,7 +55,27 @@ class ItemCard extends React.Component {
     editItem = () => {
         this.setState({redirect: true});
         this.setState({id: this.props.todoList.id});
-        this.setState({iid: this.props.item.id});
+        this.setState({iid: this.props.item.key});
+    }
+
+    getUpArrowStyle() {
+        var index = this.props.item.key;
+        if (index !== 0){
+            return "green";
+        }
+        else{
+            return "grey";
+        }
+    }
+
+    getDownArrowStyle() {
+        var index = this.props.item.key;
+        if (index !== (this.props.todoList.items.length - 1)){
+            return "green";
+        }
+        else{
+            return "grey";
+        }
     }
 
     render() {
@@ -78,10 +101,10 @@ class ItemCard extends React.Component {
                         onClick={this.editItem}
                     >
                     <Button floating icon={<Icon className="material-icons">arrow_upward</Icon>} 
-                            className="green" 
+                            className={this.getUpArrowStyle()} 
                             onClick={this.upItem}></Button>
                     <Button floating icon={<Icon className="material-icons">arrow_downward</Icon>} 
-                            className="green" 
+                            className={this.getDownArrowStyle()} 
                             style={{right: 5}} 
                             onClick={this.downItem}/>
                     <Button floating icon={<Icon className="material-icons">delete</Icon>} 

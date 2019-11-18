@@ -97,8 +97,7 @@ class ListItemsHeader extends React.Component {
     }
 
     render() {
-        const todoList = this.props.todoList;
-        console.log("ItemsList: todoList.id " + todoList.id);
+        //const todoList = this.props.todoList;
         return (
             <div className="card todo-list-link pink lighten-3">
                 <div className="card-content text-darken-3 row">
